@@ -1,46 +1,44 @@
 class Solution {
     public void nextPermutation(int[] nums) {
-
-        int pivot = -1;
-        int len = nums.length;
-
-        // Step 1: Find pivot 🔍
-        for (int i = len - 2; i >= 0; i--) {
+        int n = nums.length;
+        int index = -1;
+        for (int i = n - 2; i >= 0; i--) {
             if (nums[i] < nums[i + 1]) {
-                pivot = i;
+                index = i;
                 break;
             }
         }
-
-        // If no pivot exists, reverse the entire array 🔄
-        if (pivot == -1) {
-            reverse(nums, 0, len - 1);
+        if (index == -1) {
+            reverse(nums);
             return;
         }
-
-        // Step 2: Find the rightmost element greater than pivot ➕
-        for (int i = len - 1; i > pivot; i--) {
-            if (nums[pivot] < nums[i]) {
-                swap(nums, pivot, i);
-                break;
+        int min_index = -1;
+        int min = Integer.MAX_VALUE;
+        for (int i = index + 1; i < n; i++) {
+            if (nums[i] > nums[index]) {
+                min = Math.min(min, nums[i]);
+            }
+            if (min == nums[i]) {
+                min_index = i;
             }
         }
-
-        // Step 3: Reverse the suffix to get the smallest arrangement ✨
-        reverse(nums, pivot + 1, len - 1);
+        swap(nums, min_index, index);
+        Arrays.sort(nums, index + 1, n);
     }
 
-    private void reverse(int[] nums, int start, int end) {
-        while (start < end) {
-            swap(nums, start, end);
-            start++;
-            end--;
+    private void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    private void reverse(int[] nums) {
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            swap(nums, i, j);
+            i++;
+            j--;
         }
     }
 
-    private void swap(int[] arr, int a, int b) {
-        int temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
-    }
 }
