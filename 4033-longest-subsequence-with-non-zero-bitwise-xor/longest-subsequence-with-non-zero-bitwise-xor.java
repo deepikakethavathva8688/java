@@ -9,7 +9,6 @@ class Solution {
             }
         boolean allZero = true;
         for(int num : nums) {
-            // if(int num : nums) {
                 if(num != 0){
                     allZero = false;
                     break;
